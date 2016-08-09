@@ -1,8 +1,9 @@
 # Party Management
 
-[Consultants](glossary.md#consultant) [create parties](./features/create_party.feature) in order to bring [guests](glossary.md#guest) who might be interested in buying products, or hosting a party themself.
+[Consultants](glossary.md#consultant) create parties in order to bring [guests](glossary.md#guest) who might be interested in buying products, or hosting a party themself.
 
-
+## Features
+ 1. [Create a Party](./features/create_party.feature)
 
 
 

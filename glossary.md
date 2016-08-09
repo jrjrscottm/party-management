@@ -18,4 +18,3 @@
     <dt name="show">show</dt>
     <dd>see <a href="#party">party</a></dd> 
 </dl>
-

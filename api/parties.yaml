@@ -1,0 +1,176 @@
+swagger: '2.0'
+info:
+  title: Parties API
+  description: Party Management
+  version: "1.0.0"
+host: api.jrjrnetworks.com
+schemes:
+  - https
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /parties:
+    get:
+      summary: Parties
+      description: |
+        The Parties endpoint returns information about the *Consultant* parties
+        that have been created. They can include past or future parties.
+      tags:
+        - Parties
+      responses:
+        200:
+          description: An array of parties
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Party'
+    post:
+      summary: Create a party
+      parameters:
+          - name: party
+            in: body
+            description: Add a new party
+            required: true
+            schema:
+              $ref: '#/definitions/CreatePartyCommand'
+      responses:
+        201:
+          headers: 
+            Location:
+              description: the URL of the created party
+              type: string
+          description: Party Created
+  /parties/{id}:
+    get:
+      summary: Get a single party
+      description: |
+        The Parties endpoint returns information about the *Consultant* parties
+        that have been created. They can include past or future parties.
+      tags:
+        - Parties
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: An array of parties
+          schema:
+            $ref: '#/definitions/Party'
+  /parties/{id}/invites:
+    get:
+      summary: Get the invites for the party
+      description: | 
+        pretty much that
+        and more
+      tags: 
+       - Invites
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: An array of invites
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Invite'
+    post:
+      summary: Invite a person
+      description: Invite someone to the party
+      tags: 
+       - Invites
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: invite
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreatePartyInvite'
+      responses:
+        200: 
+          description: Invite added
+          schema:
+            $ref: '#/definitions/Invite'
+definitions:
+  CreatePartyCommand:
+   type: object
+   properties:
+     name:
+       type: string
+       description: Party name assigned by the Consultant.
+     party_date:
+       type: string
+       format: date-time
+       description: Date the party is scheduled to take place.
+     invites:
+       type: array
+       items:
+         $ref: '#/definitions/CreatePartyInvite'
+  CreatePartyInvite:
+    type: object
+    properties:
+      first_name:
+        type: string
+        description: First name of the invited person
+      last_name:
+        type: string
+        description: Last name of the invited person
+      email:
+        type: string
+        description: Email address of the invited person
+      guest_id:
+        type: string
+        description: Unique identifier for the guest. Only present if they've attended other parties.
+  Party:
+   type: object
+   properties:
+     party_id:
+       type: string
+       description: Unique identifier representing a specific party.
+     name:
+       type: string
+       description: The party name assigned by the Consultant.
+     party_date:
+       type: string
+       format: date-time
+       description: The date the party is scheduled to take place.
+     party_created_date:
+       type: string
+       format: date-time
+       description: The date the party was initially created.
+     invites:
+       type: array
+       items:
+         $ref: '#/definitions/Invite'
+  Invite:
+    type: object
+    properties:
+      invite_id:
+        type: string
+        description: Unique identifier representing the invite for this contact/party combination
+      guest_id:
+        type: string
+        description: Unique identifier for the guest who has attended a previous party.
+      first_name:
+        type: string
+        description: The person's first name         
+      last_name:
+        type: string
+        description: The person's last name
+      email:
+        type: string
+        description: The person's email address
+      rsvp_status:
+        type: string
+        description: The status of the invite
+
+
+
