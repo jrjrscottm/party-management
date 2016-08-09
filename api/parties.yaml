@@ -6,6 +6,17 @@ info:
 host: api.jrjrnetworks.com
 schemes:
   - https
+
+securityDefinitions:
+  my_auth:
+    type: oauth2
+    description: jrjr oauth
+    authorizationUrl: http://localhost:5000/connect/authorize
+    tokenUrl: http://localhost:5000/connect/token
+    flow: accessCode
+    scopes: 
+      read:profile: profile
+      read:openid: openid
 basePath: /v1
 produces:
   - application/json
@@ -18,6 +29,10 @@ paths:
         that have been created. They can include past or future parties.
       tags:
         - Parties
+      security:
+        - my_auth:
+          - read:profile
+          - read:openid
       responses:
         200:
           description: An array of parties
@@ -171,6 +186,3 @@ definitions:
       rsvp_status:
         type: string
         description: The status of the invite
-
-
-
