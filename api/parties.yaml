@@ -8,19 +8,51 @@ schemes:
   - https
 
 securityDefinitions:
-  my_auth:
+  api_authorization:
     type: oauth2
     description: jrjr oauth
     authorizationUrl: http://localhost:5000/connect/authorize
     tokenUrl: http://localhost:5000/connect/token
     flow: accessCode
     scopes: 
-      read:profile: profile
-      read:openid: openid
+      profile: Read user profile information
 basePath: /v1
 produces:
   - application/json
 paths:
+  /hosts:
+    get:
+      summary: Hosts
+      description: | 
+        The Hosts endpoint returns host information for previously hosted parties.
+      tags: 
+       - Hosts
+      responses:
+        200:
+          description: An array of Hosts
+          schema:
+            type: array
+            items:
+             $ref: '#/definitions/Host'
+  /hosts/{host_id}/parties:
+    get:
+      summary: Get host parties
+      description: |
+       Get the previous and future parties registered for this host.
+      tags:
+       - Hosts
+      parameters:
+       - name: host_id
+         type: string
+         required: true
+         in: path
+      responses:
+        200:
+          description: An array of Parties
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Party'
   /parties:
     get:
       summary: Parties
@@ -30,9 +62,8 @@ paths:
       tags:
         - Parties
       security:
-        - my_auth:
-          - read:profile
-          - read:openid
+        - api_authorization:
+          - profile
       responses:
         200:
           description: An array of parties
@@ -114,13 +145,37 @@ paths:
           description: Invite added
           schema:
             $ref: '#/definitions/Invite'
+        400:
+         description: 'Error'
+         schema:
+            $ref: '#/definitions/ErrorResponse'
 definitions:
+  Address:
+   type: object
+   properties:
+    address_line_1:
+      type: string
+      description: Street information
+    address_line_2:
+      type: string
+      description: Additional street information
+    city:
+      type: string
+      description: City
+    state:
+      type: string
+      description: State
+    postal_code:
+      type: string
+      description: Postal code
   CreatePartyCommand:
    type: object
    properties:
      name:
        type: string
        description: Party name assigned by the Consultant.
+     host:
+       $ref: '#/definitions/Host'
      party_date:
        type: string
        format: date-time
@@ -144,6 +199,51 @@ definitions:
       guest_id:
         type: string
         description: Unique identifier for the guest. Only present if they've attended other parties.
+  Contact:
+    type: object
+    properties:
+      first_name:
+        type: string
+        description: The person's first name         
+      last_name:
+        type: string
+        description: The person's last name
+      email:
+        type: string
+        description: The person's email address
+      phone_number:
+        type: string
+        description: The person's phone number
+      address:
+        $ref: '#/definitions/Address'
+  ErrorResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        description: the error message
+      error_code:
+        type: string
+        description: errorCode
+  Host:
+   allOf:
+     - $ref: '#/definitions/Contact'
+   properties:
+     host_id:
+       type: string
+       description: Unique identifer representing the part host
+  Invite:
+    type: object
+    properties:
+      invite_id:
+        type: string
+        description: Unique identifier representing the invite for this contact/party combination
+      guest_id:
+        type: string
+        description: Unique identifier for the guest who has attended a previous party.
+      rsvp_status:
+        type: string
+        description: The status of the invite
   Party:
    type: object
    properties:
@@ -165,24 +265,6 @@ definitions:
        type: array
        items:
          $ref: '#/definitions/Invite'
-  Invite:
-    type: object
-    properties:
-      invite_id:
-        type: string
-        description: Unique identifier representing the invite for this contact/party combination
-      guest_id:
-        type: string
-        description: Unique identifier for the guest who has attended a previous party.
-      first_name:
-        type: string
-        description: The person's first name         
-      last_name:
-        type: string
-        description: The person's last name
-      email:
-        type: string
-        description: The person's email address
-      rsvp_status:
-        type: string
-        description: The status of the invite
+
+
+
