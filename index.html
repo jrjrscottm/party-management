@@ -35,7 +35,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "http://petstore.swagger.io/v2/swagger.json";
+        url = "/api/parties.yaml";
       }
 
       // Pre load translate...
@@ -49,10 +49,9 @@
         onComplete: function(swaggerApi, swaggerUi){
           if(typeof initOAuth == "function") {
             initOAuth({
-              clientId: "your-client-id",
-              clientSecret: "your-client-secret-if-required",
-              realm: "your-realms",
-              appName: "your-app-name", 
+              clientId: "gh-pages",
+              clientSecret: "very-open",
+              appName: "gh-pages", 
               scopeSeparator: ",",
               additionalQueryStringParams: {}
             });
