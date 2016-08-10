@@ -20,50 +20,7 @@ basePath: /v1
 produces:
  - application/json
 paths:
-  /parties/{party_id}/orders:
-    get:
-      summary: Get party orders
-      description: |
-        Gets all of the orders for a party whether confirmed or not.
-      tags:
-        - Parties
-      security:
-        - api_authorization:
-          - profile
-          - openid
-      parameters:
-        - name: party_id
-          in: path
-          required: true
-          type: string
-      responses:
-        200:
-          description: The orders for the party.
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Order'
-  /orders/{order_id}/confirm:
-    post:
-     summary: Confirm Order
-     description: |
-      Submits the order for processing. Some changes may not be available.
-     tags:
-       - Orders
-     security:
-       - api_authorization:
-         - profile
-         - openid
-     parameters:
-      - name: order_id
-        in: path
-        required: true
-        type: string
-     responses:
-      200:
-        description: The order was confirmed
-        schema:
-         $ref: '#/definitions/Order'
+
   /orders:
     get:
      summary: Orders
@@ -107,6 +64,71 @@ paths:
           Location:
             description: The URL to get the order
             type: string
+  /orders/{order_id}:
+    get:
+     summary: Orders
+     description: |
+       Gets the logged in users most recent orders.
+     tags:
+      - Orders
+     security:
+       - api_authorization:
+         - profile
+         - openid
+     parameters:
+      - name: order_id
+        in: path
+        required: true
+        type: string
+     responses:
+       200:
+         description: Order detail
+         schema:
+          $ref: '#/definitions/Order'
+  /orders/{order_id}/confirm:
+    post:
+     summary: Confirm Order
+     description: |
+      Submits the order for processing. Some changes may not be available.
+     tags:
+       - Orders
+     security:
+       - api_authorization:
+         - profile
+         - openid
+     parameters:
+      - name: order_id
+        in: path
+        required: true
+        type: string
+     responses:
+      200:
+        description: The order was confirmed
+        schema:
+         $ref: '#/definitions/Order'
+  /parties/{party_id}/orders:
+    get:
+      summary: Get party orders
+      description: |
+        Gets all of the orders for a party whether confirmed or not.
+      tags:
+        - Parties
+      security:
+        - api_authorization:
+          - profile
+          - openid
+      parameters:
+        - name: party_id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: The orders for the party.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Order'
 definitions:
   Address:
    type: object
