@@ -73,6 +73,8 @@ paths:
               $ref: '#/definitions/Party'
     post:
       summary: Create a party
+      tags:
+       - Parties
       parameters:
           - name: party
             in: body
