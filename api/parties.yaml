@@ -16,6 +16,7 @@ securityDefinitions:
     flow: accessCode
     scopes: 
       profile: Read user profile information
+      openid: Authenticate with OpenID
 basePath: /v1
 produces:
   - application/json
@@ -27,6 +28,10 @@ paths:
         The Hosts endpoint returns host information for previously hosted parties.
       tags: 
        - Hosts
+      security:
+        - api_authorization:
+          - profile
+          - openid
       responses:
         200:
           description: An array of Hosts
@@ -41,6 +46,10 @@ paths:
        Get the previous and future parties registered for this host.
       tags:
        - Hosts
+      security:
+        - api_authorization:
+          - profile
+          - openid
       parameters:
        - name: host_id
          type: string
@@ -64,6 +73,7 @@ paths:
       security:
         - api_authorization:
           - profile
+          - openid
       responses:
         200:
           description: An array of parties
@@ -75,6 +85,10 @@ paths:
       summary: Create a party
       tags:
        - Parties
+      security:
+        - api_authorization:
+          - profile
+          - openid
       parameters:
           - name: party
             in: body
@@ -97,6 +111,10 @@ paths:
         that have been created. They can include past or future parties.
       tags:
         - Parties
+      security:
+        - api_authorization:
+          - profile
+          - openid
       parameters:
         - name: id
           in: path
@@ -115,6 +133,10 @@ paths:
         and more
       tags: 
        - Invites
+      security:
+        - api_authorization:
+          - profile
+          - openid
       parameters:
         - name: id
           in: path
@@ -132,6 +154,10 @@ paths:
       description: Invite someone to the party
       tags: 
        - Invites
+      security:
+        - api_authorization:
+          - profile
+          - openid
       parameters:
         - name: id
           in: path
