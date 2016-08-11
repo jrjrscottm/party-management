@@ -130,6 +130,15 @@ paths:
             items:
               $ref: '#/definitions/Order'
 definitions:
+  ErrorResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        description: the error message
+      error_code:
+        type: string
+        description: errorCode
   CreateOrderCommand:
     type: object
     properties:
@@ -143,7 +152,7 @@ definitions:
         type: string
         description: Unique identifier representing a validated payment method
       shipping_address:
-        $ref: '/common/entities.yaml#/definitions/Address'
+        $ref: '/api/common/entities.yaml#/definitions/Address'
       line_items:
         type: array
         items:

@@ -186,6 +186,8 @@ definitions:
        description: Party name assigned by the Consultant.
      host:
        $ref: '#/definitions/Host'
+     address:
+       $ref: '/api/common/entities.yaml#/definitions/Address'
      party_date:
        type: string
        format: date-time
@@ -196,16 +198,9 @@ definitions:
          $ref: '#/definitions/CreatePartyInvite'
   CreatePartyInvite:
     type: object
+    allOf:
+      - $ref: '#/definitions/Contact'
     properties:
-      first_name:
-        type: string
-        description: First name of the invited person
-      last_name:
-        type: string
-        description: Last name of the invited person
-      email:
-        type: string
-        description: Email address of the invited person
       guest_id:
         type: string
         description: Unique identifier for the guest. Only present if they've attended other parties.
@@ -225,24 +220,12 @@ definitions:
         type: string
         description: The person's phone number
       address:
-        $ref: 'common/entities.yaml#/definitions/Address'
+        $ref: '/api/common/entities.yaml#/definitions/Address'
   Host:
     type: object
+    allOf:
+      - $ref: '#/definitions/Contact'
     properties:
-      first_name:
-        type: string
-        description: The person's first name         
-      last_name:
-        type: string
-        description: The person's last name
-      email:
-        type: string
-        description: The person's email address
-      phone_number:
-        type: string
-        description: The person's phone number
-      address:
-        $ref: 'common/entities.yaml#/definitions/Address'
       host_id:
         type: string
         description: Unique identifer representing the part host
