@@ -41,7 +41,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
   /hosts/{host_id}/parties:
     get:
       summary: Get host parties
@@ -68,7 +68,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
   /parties:
     get:
       summary: Parties
@@ -91,7 +91,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
     post:
       summary: Create a party
       tags:
@@ -117,7 +117,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
   /parties/{id}:
     get:
       summary: Get a single party
@@ -143,7 +143,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
   /parties/{id}/invites:
     get:
       summary: Get the invites for the party
@@ -171,7 +171,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
     post:
       summary: Invite a person
       description: Invite someone to the party
@@ -199,7 +199,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
   /products:
     get:
       summary: Get Products
@@ -232,7 +232,7 @@ paths:
         400:
           description: 'Error'
           schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
   /products/{product_id}:
      get:
        summary: Get a Product
@@ -256,7 +256,7 @@ paths:
          400:
           description: 'Error'
           schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'       
+            $ref: '#/definitions/ErrorResponse'       
   /categories:
     get:
       summary: Get Categories
@@ -289,7 +289,7 @@ paths:
        400:
          description: 'Error'
          schema:
-           $ref: 'responses.yaml#/definitions/ErrorResponse'
+           $ref: '#/definitions/ErrorResponse'
   /categories/{category_id}/products:
     get:
       summary: Get Category Products
@@ -317,7 +317,7 @@ paths:
         400:
           description: 'Error'
           schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
 
   /orders:
     get:
@@ -340,7 +340,7 @@ paths:
        400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
     post:
       summary: Create an Order
       description: |
@@ -369,7 +369,7 @@ paths:
         400:
           description: 'Error'
           schema:
-             $ref: 'responses.yaml#/definitions/ErrorResponse'
+             $ref: '#/definitions/ErrorResponse'
   /orders/{order_id}:
     get:
      summary: Orders
@@ -394,7 +394,7 @@ paths:
        400:
          description: 'Error'
          schema:
-          $ref: 'responses.yaml#/definitions/ErrorResponse'
+          $ref: '#/definitions/ErrorResponse'
   /orders/{order_id}/confirm:
     post:
      summary: Confirm Order
@@ -419,7 +419,7 @@ paths:
       400:
         description: 'Error'
         schema:
-         $ref: 'responses.yaml#/definitions/ErrorResponse'
+         $ref: '#/definitions/ErrorResponse'
   /parties/{party_id}/orders:
     get:
       summary: Get party orders
@@ -446,8 +446,35 @@ paths:
         400:
           description: 'Error'
           schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
 definitions:
+  Address:
+   type: object
+   properties:
+    address_line_1:
+      type: string
+      description: Street information
+    address_line_2:
+      type: string
+      description: Additional street information
+    city:
+      type: string
+      description: City
+    state:
+      type: string
+      description: State
+    postal_code:
+      type: string
+      description: Postal code
+  ErrorResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        description: the error message
+      error_code:
+        type: string
+        description: errorCode
   CreatePartyCommand:
    type: object
    properties:
@@ -457,7 +484,7 @@ definitions:
      host:
        $ref: '#/definitions/Host'
      address:
-       $ref: 'common/entities.yaml#/definitions/Address'
+       $ref: '#/definitions/Address'
      party_date:
        type: string
        format: date-time
@@ -490,7 +517,7 @@ definitions:
         type: string
         description: The person's phone number
       address:
-        $ref: 'common/entities.yaml#/definitions/Address'
+        $ref: '#/definitions/Address'
   Host:
     type: object
     allOf:
@@ -553,7 +580,7 @@ definitions:
         type: string
         description: Unique identifier representing a validated payment method
       shipping_address:
-        $ref: 'common/entities.yaml#/definitions/Address'
+        $ref: '#/definitions/Address'
       line_items:
         type: array
         items:
@@ -606,7 +633,7 @@ definitions:
         format: double
         description: The discount total.
       shipping_address:
-        $ref: 'common/entities.yaml#/definitions/Address'
+        $ref: '#/definitions/Address'
       line_items:
         type: array
         items:
@@ -643,7 +670,6 @@ definitions:
         description: Unique identifier representing the Category of the product
       name:
         type: string
-        required: true
         description: the display name of the product_id
       description:
         type: string
@@ -674,9 +700,7 @@ definitions:
         type: string
         description: The unit of measure for quantity of the product
       stock_status:
-        required: true
-        $ref: '#/defintions/StockStatus'
-        description: The status of the product
+        $ref: '#/definitions/StockStatus'
       _links:
         type: array
         items: 

@@ -41,7 +41,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
   /hosts/{host_id}/parties:
     get:
       summary: Get host parties
@@ -68,7 +68,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
   /parties:
     get:
       summary: Parties
@@ -91,7 +91,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
     post:
       summary: Create a party
       tags:
@@ -117,7 +117,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
   /parties/{id}:
     get:
       summary: Get a single party
@@ -143,7 +143,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
   /parties/{id}/invites:
     get:
       summary: Get the invites for the party
@@ -171,7 +171,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
     post:
       summary: Invite a person
       description: Invite someone to the party
@@ -199,8 +199,280 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: '#/definitions/ErrorResponse'
+  /products:
+    get:
+      summary: Get Products
+      description: |
+        The Products endpoint gets products based on some criteria.
+      tags:
+        - Products
+      security:
+        - api_authorization:
+          - profile
+          - openid
+      parameters:
+        - name: page
+          in: query
+          type: number
+          description: the page number
+          required: false
+        - name: page_size
+          in: query
+          type: number
+          description: the page size
+          required: false
+      responses:
+        200:
+          description: An array or products
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/Product'
+        400:
+          description: 'Error'
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /products/{product_id}:
+     get:
+       summary: Get a Product
+       description: |
+         Gets details of a product by Product ID
+       tags:
+         - Products
+       parameters:
+         - name: product_id
+           in: path
+           required: true
+           type: string
+       responses:
+         200:
+           description: An array of products
+           schema:
+             type: array
+             items:
+               $ref: '#/definitions/Product'
+         400:
+          description: 'Error'
+          schema:
+            $ref: '#/definitions/ErrorResponse'       
+  /categories:
+    get:
+      summary: Get Categories
+      description: |
+        The Categories endpoint gets categories based on some criteria.
+      tags:
+       - Categories
+      security:
+        - api_authorization:
+          - profile
+          - openid
+      parameters:
+       - name: page
+         in: query
+         type: number
+         description: the page number
+         required: false
+       - name: page_size
+         in: query
+         description: the page size
+         type: number
+         required: false
+      responses:
+       200:
+         description: An array or categories
+         schema:
+           type: array
+           items: 
+             $ref: '#/definitions/Category'
+       400:
+         description: 'Error'
+         schema:
+           $ref: '#/definitions/ErrorResponse'
+  /categories/{category_id}/products:
+    get:
+      summary: Get Category Products
+      description: |
+        Gets all products associated with a category.
+      tags:
+        - Categories
+      security:
+        - api_authorization:
+          - profile
+          - openid
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: An array of products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        400:
+          description: 'Error'
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /orders:
+    get:
+     summary: Orders
+     description: |
+       Gets the logged in users most recent orders.
+     tags:
+      - Orders
+     security:
+       - api_authorization:
+         - profile
+         - openid
+     responses:
+       200:
+         description: An array or Orders
+         schema:
+           type: array
+           items:
+             $ref: '#/definitions/Order'
+       400:
+         description: 'Error'
+         schema:
+            $ref: '#/definitions/ErrorResponse'
+    post:
+      summary: Create an Order
+      description: |
+        Create an order for the given guest and party.
+      tags:
+        - Orders
+      security:
+        - api_authorization:
+          - profile
+          - openid
+      parameters:
+        - name: order
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateOrderCommand'
+      responses:
+        201:
+          description: Order Created
+          schema:
+             $ref: '#/definitions/Order'
+          headers: 
+            Location:
+              description: The URL to get the order
+              type: string
+        400:
+          description: 'Error'
+          schema:
+             $ref: '#/definitions/ErrorResponse'
+  /orders/{order_id}:
+    get:
+     summary: Orders
+     description: |
+       Gets the logged in users most recent orders.
+     tags:
+      - Orders
+     security:
+       - api_authorization:
+         - profile
+         - openid
+     parameters:
+      - name: order_id
+        in: path
+        required: true
+        type: string
+     responses:
+       200:
+         description: Order detail
+         schema:
+          $ref: '#/definitions/Order'
+       400:
+         description: 'Error'
+         schema:
+          $ref: '#/definitions/ErrorResponse'
+  /orders/{order_id}/confirm:
+    post:
+     summary: Confirm Order
+     description: |
+      Submits the order for processing. Some changes may not be available.
+     tags:
+       - Orders
+     security:
+       - api_authorization:
+         - profile
+         - openid
+     parameters:
+      - name: order_id
+        in: path
+        required: true
+        type: string
+     responses:
+      200:
+        description: The order was confirmed
+        schema:
+         $ref: '#/definitions/Order'
+      400:
+        description: 'Error'
+        schema:
+         $ref: '#/definitions/ErrorResponse'
+  /parties/{party_id}/orders:
+    get:
+      summary: Get party orders
+      description: |
+        Gets all of the orders for a party whether confirmed or not.
+      tags:
+        - Parties
+      security:
+        - api_authorization:
+          - profile
+          - openid
+      parameters:
+        - name: party_id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: The orders for the party.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Order'
+        400:
+          description: 'Error'
+          schema:
+            $ref: '#/definitions/ErrorResponse'
 definitions:
+  Address:
+   type: object
+   properties:
+    address_line_1:
+      type: string
+      description: Street information
+    address_line_2:
+      type: string
+      description: Additional street information
+    city:
+      type: string
+      description: City
+    state:
+      type: string
+      description: State
+    postal_code:
+      type: string
+      description: Postal code
+  ErrorResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        description: the error message
+      error_code:
+        type: string
+        description: errorCode
   CreatePartyCommand:
    type: object
    properties:
@@ -210,7 +482,7 @@ definitions:
      host:
        $ref: '#/definitions/Host'
      address:
-       $ref: 'common/entities.yaml#/definitions/Address'
+       $ref: '#/definitions/Address'
      party_date:
        type: string
        format: date-time
@@ -243,7 +515,7 @@ definitions:
         type: string
         description: The person's phone number
       address:
-        $ref: 'common/entities.yaml#/definitions/Address'
+        $ref: '#/definitions/Address'
   Host:
     type: object
     allOf:
@@ -293,6 +565,152 @@ definitions:
        type: array
        items: 
          $ref: '#/definitions/Link'
+  CreateOrderCommand:
+    type: object
+    properties:
+      party_id:
+        type: string
+        description: Unique identifier representing the party this order is from.
+      guest_id:
+        type: string
+        description: Unique identifier representing the guest that is placing the order.
+      payment_token:
+        type: string
+        description: Unique identifier representing a validated payment method
+      shipping_address:
+        $ref: '#/definitions/Address'
+      line_items:
+        type: array
+        items:
+          $ref: '#/definitions/CreateOrderLineItem'
+  CreateOrderLineItem:
+    type: object
+    properties:
+      product_id:
+        type: string
+        description: Unique identifier representing the product_id
+      quantity:
+        type: string
+        description: The number of items.
+  LineItem:
+    type: object
+    properties:
+      product_id:
+        type: string
+        description: Unique identifier representing the product_id
+      quantity:
+        type: string
+        description: The number of items.
+      sub_total:
+        type: number
+        format: double
+        description: the sub total for this line item.
+  Order:
+    type: object
+    properties:
+      order_id:
+        type: string
+        description: Unique identifier representing the order_id
+      party_id:
+        type: string
+        description: Unique identifier representing the party this order was placed for.
+      total:
+        type: number
+        format: double
+        description: The order total including tax and any discounts.
+      sub_total:
+        type: number
+        format: double
+        description: The order total before tax or discounts.
+      tax:
+        type: number
+        format: double
+        description: The tax amount for the order.
+      discount_total:
+        type: number
+        format: double
+        description: The discount total.
+      shipping_address:
+        $ref: '#/definitions/Address'
+      line_items:
+        type: array
+        items:
+          $ref: '#/definitions/LineItem'
+      _links:
+        type: array
+        items: 
+          $ref: '#/definitions/Link'
+  Category:
+    type: object
+    properties:
+     
+      category_id:
+        type: string
+        description: Unique identifier representing the category
+      parent_category_id:
+        type: string
+        description: Unique identifier representing the parent category
+      name:
+        type: string
+        description: Display name of the category
+      _links:
+        type: array
+        items: 
+          $ref: '#/definitions/Link'
+  Product:
+    type: object
+    properties:
+      product_id:
+        type: string
+        description: Unique identifier representing the product
+      category_id:
+        type: string
+        description: Unique identifier representing the Category of the product
+      name:
+        type: string
+        description: the display name of the product_id
+      description:
+        type: string
+        description: the description of the product
+      active:
+        type: boolean
+        description: Is the product active?
+      taxable:
+        type: boolean
+        description: Is the product taxable?
+      retail_price:
+        type: number
+        format: double
+      commissionable_volume:
+        type: number
+        format: double
+      commission:
+        type: number
+        format: double
+      image_path:
+        type: string
+        description: URL for an image of the product
+      tags:
+        type: array
+        items:
+          type: string
+      unit_of_measure:
+        type: string
+        description: The unit of measure for quantity of the product
+      stock_status:
+        $ref: '#/definitions/StockStatus'
+      _links:
+        type: array
+        items: 
+          $ref: '#/definitions/Link'
+  StockStatus:
+    type: string
+    enum:
+      - InStock
+      - OutOfStock
+      - Discontinued
+      - Recalled
+      - BackOrdered
   Link:
     type: object
     properties:
