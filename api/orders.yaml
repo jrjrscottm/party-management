@@ -39,6 +39,10 @@ paths:
            type: array
            items:
              $ref: '#/definitions/Order'
+        400:
+         description: 'Error'
+         schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
     post:
       summary: Create an Order
       description: |
@@ -56,14 +60,18 @@ paths:
           schema:
             $ref: '#/definitions/CreateOrderCommand'
       responses:
-       201:
-         description: Order Created
-         schema:
-           $ref: '#/definitions/Order'
-         headers: 
-          Location:
-            description: The URL to get the order
-            type: string
+        201:
+          description: Order Created
+          schema:
+             $ref: '#/definitions/Order'
+          headers: 
+            Location:
+              description: The URL to get the order
+              type: string
+        400:
+          description: 'Error'
+           schema:
+             $ref: 'responses.yaml#/definitions/ErrorResponse'
   /orders/{order_id}:
     get:
      summary: Orders
@@ -85,6 +93,10 @@ paths:
          description: Order detail
          schema:
           $ref: '#/definitions/Order'
+       400:
+         description: 'Error'
+         schema:
+          $ref: 'responses.yaml#/definitions/ErrorResponse'
   /orders/{order_id}/confirm:
     post:
      summary: Confirm Order
@@ -106,6 +118,10 @@ paths:
         description: The order was confirmed
         schema:
          $ref: '#/definitions/Order'
+      400:
+        description: 'Error'
+        schema:
+         $ref: 'responses.yaml#/definitions/ErrorResponse'
   /parties/{party_id}/orders:
     get:
       summary: Get party orders
@@ -129,6 +145,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Order'
+        400:
+          description: 'Error'
+          schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
 definitions:
   ErrorResponse:
     type: object

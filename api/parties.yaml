@@ -39,6 +39,10 @@ paths:
             type: array
             items:
              $ref: '#/definitions/Host'
+        400:
+         description: 'Error'
+         schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
   /hosts/{host_id}/parties:
     get:
       summary: Get host parties
@@ -62,6 +66,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Party'
+        400:
+         description: 'Error'
+         schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
   /parties:
     get:
       summary: Parties
@@ -81,6 +89,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Party'
+        400:
+         description: 'Error'
+         schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
     post:
       summary: Create a party
       tags:
@@ -103,6 +115,10 @@ paths:
               description: the URL of the created party
               type: string
           description: Party Created
+        400:
+         description: 'Error'
+         schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
   /parties/{id}:
     get:
       summary: Get a single party
@@ -125,6 +141,10 @@ paths:
           description: An array of parties
           schema:
             $ref: '#/definitions/Party'
+        400:
+         description: 'Error'
+         schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
   /parties/{id}/invites:
     get:
       summary: Get the invites for the party
@@ -149,6 +169,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Invite'
+        400:
+         description: 'Error'
+         schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
     post:
       summary: Invite a person
       description: Invite someone to the party

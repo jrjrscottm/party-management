@@ -49,6 +49,10 @@ paths:
             type: array
             items: 
               $ref: '#/definitions/Product'
+        400:
+          description: 'Error'
+          schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
    /categories:
      get:
        summary: Get Categories
@@ -78,6 +82,10 @@ paths:
             type: array
             items: 
               $ref: '#/definitions/Category'
+        400:
+          description: 'Error'
+          schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
 definitions:
   Category:
     type: object
