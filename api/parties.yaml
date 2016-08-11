@@ -176,26 +176,8 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: 'api/common/responses.yaml#/definitions/ErrorResponse'
 definitions:
-  Address:
-   type: object
-   properties:
-    address_line_1:
-      type: string
-      description: Street information
-    address_line_2:
-      type: string
-      description: Additional street information
-    city:
-      type: string
-      description: City
-    state:
-      type: string
-      description: State
-    postal_code:
-      type: string
-      description: Postal code
   CreatePartyCommand:
    type: object
    properties:
@@ -243,16 +225,7 @@ definitions:
         type: string
         description: The person's phone number
       address:
-        $ref: '#/definitions/Address'
-  ErrorResponse:
-    type: object
-    properties:
-      message:
-        type: string
-        description: the error message
-      error_code:
-        type: string
-        description: errorCode
+        $ref: 'spec-files/common/entities.yaml#/definitions/Address'
   Host:
    allOf:
      - $ref: '#/definitions/Contact'
