@@ -176,7 +176,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: '/api/common/responses.yaml#/definitions/ErrorResponse'
+            $ref: 'responses.yaml#/definitions/ErrorResponse'
 definitions:
   CreatePartyCommand:
    type: object
