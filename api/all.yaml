@@ -611,6 +611,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/LineItem'
+      _links:
+        type: array
+        items: 
+          $ref: '#/definitions/Link'
   Category:
     type: object
     properties:
