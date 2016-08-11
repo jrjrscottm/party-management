@@ -245,7 +245,6 @@ paths:
            in: path
            required: true
            type: string
-           descripion: The product unique identifier
        responses:
          200:
            description: An array of products
@@ -306,7 +305,6 @@ paths:
           in: path
           required: true
           type: string
-          descripion: the category ID
       responses:
         200:
           description: An array of products
