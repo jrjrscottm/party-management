@@ -35,7 +35,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "/party-management/api/parties.yaml";
+        url = "/party-management/api/all.yaml";
       }
 
       // Pre load translate...
@@ -119,6 +119,7 @@
           <option value="/party-management/api/parties.yaml">Party API</option>
           <option value="/party-management/api/orders.yaml">Order API</option>
           <option value="/party-management/api/catalog.yaml">Catalog API</option>
+          <option value="/party-management/api/all.yaml">All API</option>
         </select>
       </div>
       <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
