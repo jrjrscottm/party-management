@@ -20,18 +20,18 @@ basePath: /v1
 produces:
  - application/json
 paths:
-   /products:
-     get:
-       summary: Get Products
-       description: |
-         The Products endpoint gets products based on some criteria.
-       tags:
+  /products:
+    get:
+      summary: Get Products
+      description: |
+        The Products endpoint gets products based on some criteria.
+      tags:
         - Products
-       security:
-         - api_authorization:
-           - profile
-           - openid
-       parameters:
+      security:
+        - api_authorization:
+          - profile
+          - openid
+      parameters:
         - name: page
           in: query
           type: number
@@ -42,7 +42,7 @@ paths:
           type: number
           description: the page size
           required: false
-       responses:
+      responses:
         200:
           description: An array or products
           schema:
@@ -53,43 +53,96 @@ paths:
           description: 'Error'
           schema:
             $ref: 'responses.yaml#/definitions/ErrorResponse'
-   /categories:
+  /products/{product_id}:
      get:
-       summary: Get Categories
+       summary: Get a Product
        description: |
-         The Categories endpoint gets categories based on some criteria.
+         Gets details of a product by Product ID
        tags:
-        - Categories
-       security:
-         - api_authorization:
-           - profile
-           - openid
+         - Products
        parameters:
-        - name: page
-          in: query
-          type: number
-          description: the page number
-          required: false
-        - name: page_size
-          in: query
-          description: the page size
-          type: number
-          required: false
+         - name: product_id
+           in: path
+           required: true
+           type: string
+           descripion: The product unique identifier
        responses:
+         200:
+           description: An array of products
+           schema:
+             type: array
+             items:
+               $ref: '#/definitions/Product'
+         400:
+          description: 'Error'
+          schema:
+            $ref: 'responses.yaml#/definitions/ErrorResponse'       
+  /categories:
+    get:
+      summary: Get Categories
+      description: |
+        The Categories endpoint gets categories based on some criteria.
+      tags:
+       - Categories
+      security:
+        - api_authorization:
+          - profile
+          - openid
+      parameters:
+       - name: page
+         in: query
+         type: number
+         description: the page number
+         required: false
+       - name: page_size
+         in: query
+         description: the page size
+         type: number
+         required: false
+      responses:
+       200:
+         description: An array or categories
+         schema:
+           type: array
+           items: 
+             $ref: '#/definitions/Category'
+       400:
+         description: 'Error'
+         schema:
+           $ref: 'responses.yaml#/definitions/ErrorResponse'
+  /categories/{category_id}/products:
+    get:
+      summary: Get Category Products
+      description: |
+        Gets all products associated with a category.
+      tags:
+        - Categories
+      security:
+        - api_authorization:
+          - profile
+          - openId
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          type: string
+          descripion: the category ID
+      responses:
         200:
-          description: An array or categories
+          description: An array of products
           schema:
             type: array
-            items: 
-              $ref: '#/definitions/Category'
+            items:
+              $ref: '#/definitions/Prodcut'
         400:
           description: 'Error'
           schema:
-            $ref: 'responses.yaml#/definitions/ErrorResponse'
+            $ref: 'responses.yaml#/definitions/ErrorResponse'       
 definitions:
   Category:
     type: object
     properties:
+     
       category_id:
         type: string
         description: Unique identifier representing the category
@@ -99,16 +152,77 @@ definitions:
       name:
         type: string
         description: Display name of the category
+      _links:
+        type: array
+        items: 
+          $ref: '#/definitions/Link'
   Product:
     type: object
     properties:
       product_id:
         type: string
         description: Unique identifier representing the product
+      category_id:
+        type: string
+        description: Unique identifier representing the Category of the product
       name:
         type: string
+        required: true
         description: the display name of the product_id
       description:
         type: string
         description: the description of the product
+      active:
+        type: boolean
+        description: Is the product active?
+      taxable:
+        type: boolean
+        description: Is the product taxable?
+      retail_price:
+        type: number
+        format: double
+      commissionable_volume:
+        type: number
+        format: double
+      commission:
+        type: number
+        format: double
+      image_path:
+        type: string
+        description: URL for an image of the product
+      tags:
+        type: array
+        items:
+          type: string
+      unit_of_measure:
+        type: string
+        description: The unit of measure for quantity of the product
+      stock_status:
+        required: true
+        $ref: '#/defintions/StockStatus'
+        description: The status of the product
+      _links:
+        type: array
+        items: 
+          $ref: '#/definitions/Link'
+  StockStatus:
+    type: string
+    enum:
+      - InStock
+      - OutOfStock
+      - Discontinued
+      - Recalled
+      - BackOrdered
+  Link:
+    type: object
+    properties:
+     rel:
+       type: string
+       description: a url to this item.
+     href:
+       type: string
+       description: the url to take the action.
+
+
+
 

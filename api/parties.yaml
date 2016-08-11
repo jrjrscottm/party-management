@@ -6,7 +6,6 @@ info:
 host: api.jrjrnetworks.com
 schemes:
   - https
-
 securityDefinitions:
   api_authorization:
     type: oauth2
@@ -265,6 +264,10 @@ definitions:
       rsvp_status:
         type: string
         description: The status of the invite
+      _links:
+        type: array
+        items: 
+          $ref: '#/definitions/Link'
   Party:
    type: object
    properties:
@@ -286,6 +289,18 @@ definitions:
        type: array
        items:
          $ref: '#/definitions/Invite'
-
+     _links:
+       type: array
+       items: 
+         $ref: '#/definitions/Link'
+  Link:
+    type: object
+    properties:
+     rel:
+       type: string
+       description: a url to this item.
+     href:
+       type: string
+       description: the url to take the action.
 
 

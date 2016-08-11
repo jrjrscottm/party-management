@@ -25025,7 +25025,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
   events: {
     'click #show-pet-store-icon'    : 'showPetStore',
     'click #explore'                : 'showCustom',
-    'change #input_baseUrl'          : 'showCustom',
+    'click #input_baseUrl'         : 'showCustom',
     'keyup #input_apiKey'           : 'showCustomOnKeyup'
   },
 
