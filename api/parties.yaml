@@ -211,7 +211,7 @@ definitions:
      host:
        $ref: '#/definitions/Host'
      address:
-       $ref: '/api/common/entities.yaml#/definitions/Address'
+       $ref: 'common/entities.yaml#/definitions/Address'
      party_date:
        type: string
        format: date-time
@@ -244,7 +244,7 @@ definitions:
         type: string
         description: The person's phone number
       address:
-        $ref: '/api/common/entities.yaml#/definitions/Address'
+        $ref: 'common/entities.yaml#/definitions/Address'
   Host:
     type: object
     allOf:
