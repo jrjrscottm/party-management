@@ -313,7 +313,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Prodcut'
+              $ref: '#/definitions/Product'
         400:
           description: 'Error'
           schema:
