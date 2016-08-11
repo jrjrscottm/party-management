@@ -227,12 +227,25 @@ definitions:
       address:
         $ref: 'common/entities.yaml#/definitions/Address'
   Host:
-   allOf:
-     - $ref: '#/definitions/Contact'
-   properties:
-     host_id:
-       type: string
-       description: Unique identifer representing the part host
+    type: object
+    properties:
+      first_name:
+        type: string
+        description: The person's first name         
+      last_name:
+        type: string
+        description: The person's last name
+      email:
+        type: string
+        description: The person's email address
+      phone_number:
+        type: string
+        description: The person's phone number
+      address:
+        $ref: 'common/entities.yaml#/definitions/Address'
+      host_id:
+        type: string
+        description: Unique identifer representing the part host
   Invite:
     type: object
     properties:
