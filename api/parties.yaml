@@ -176,7 +176,7 @@ paths:
         400:
          description: 'Error'
          schema:
-            $ref: '/common/responses.yaml#/definitions/ErrorResponse'
+            $ref: '/api/common/responses.yaml#/definitions/ErrorResponse'
 definitions:
   CreatePartyCommand:
    type: object
@@ -225,7 +225,7 @@ definitions:
         type: string
         description: The person's phone number
       address:
-        $ref: '/common/entities.yaml#/definitions/Address'
+        $ref: 'api/common/entities.yaml#/definitions/Address'
   Host:
    allOf:
      - $ref: '#/definitions/Contact'
