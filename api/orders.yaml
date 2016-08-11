@@ -39,7 +39,7 @@ paths:
            type: array
            items:
              $ref: '#/definitions/Order'
-        400:
+       400:
          description: 'Error'
          schema:
             $ref: 'responses.yaml#/definitions/ErrorResponse'
@@ -70,7 +70,7 @@ paths:
               type: string
         400:
           description: 'Error'
-           schema:
+          schema:
              $ref: 'responses.yaml#/definitions/ErrorResponse'
   /orders/{order_id}:
     get:
@@ -172,7 +172,7 @@ definitions:
         type: string
         description: Unique identifier representing a validated payment method
       shipping_address:
-        $ref: '/api/common/entities.yaml#/definitions/Address'
+        $ref: 'common/entities.yaml#/definitions/Address'
       line_items:
         type: array
         items:
@@ -224,6 +224,8 @@ definitions:
         type: number
         format: double
         description: The discount total.
+      shipping_address:
+        $ref: 'common/entities.yaml#/definitions/Address'
       line_items:
         type: array
         items:
